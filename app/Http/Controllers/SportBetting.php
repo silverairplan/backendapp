@@ -240,7 +240,37 @@ class SportBetting extends Controller
 
                         if($sportdatainfo['status'] == 'in progress')
                         {
-                            $sportdatainfo['history'] = TeamHistory::where('gameid',$team->id)->get();
+                            $sportdatainfo['history'] = array();
+                            $teamlists = TeamHistory::where('gameid',$team->id)->get();
+
+                            foreach ($teamlists as $teamhistory) {
+                                $spreads = json_decode($teamhistory->spread,true);
+                                $totals = json_decode($teamhistory->total,true);
+                                $moneyline = json_decode($teamhistory->moneyline,true);
+                                $spreadinfo = array();
+                                foreach ($spreads as $info) {
+                                    if($info['site_key'] == $site)
+                                    {
+                                        $spreadinfo['spread'] = $info['odds']['spreads'];
+                                    }
+                                }
+
+                                foreach ($totals as $info) {
+                                    if($info['site_key'] == $site)
+                                    {
+                                        $spreadinfo['total'] = $info['odds']['totals'];
+                                    }
+                                }
+
+                                foreach ($moneyline as $info) {
+                                    if($info['site_key'] == $site)
+                                    {
+                                        $spreadinfo['moneyline'] = $info['odds']['h2h'];
+                                    }
+                                }
+
+                                array_push($sportdatainfo['history'], $spreadinfo);
+                            }
                         }
 
                         array_push($resultarray[$sport->title],$sportdatainfo);

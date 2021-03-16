@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class TeamHistory extends Model
 {
 	protected $table = "history_score";
-	protected $fillable = ["gameid","team1","team2","commencetime"];
+	protected $fillable = ["gameid","total","moneyline","spread","commencetime"];
 
 	public function teams()
 	{

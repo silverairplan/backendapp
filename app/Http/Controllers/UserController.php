@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Hash;
 use App\Model\User;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\verification;
 
 
 class UserController extends Controller
@@ -49,8 +51,7 @@ class UserController extends Controller
 					$userinfo->update(['balance'=>$userinfo->balance + 5]);
 				}	
 			}
-
-
+			
 			$userinfo = new User($user);
 			$userinfo->save();
 
@@ -71,7 +72,7 @@ class UserController extends Controller
 
 		if(!$userinfo)
 		{
-			echo json_encode(array('success'=>false,'message'=>'Username or Email is not exist'));
+			echo json_encode(array('success'=>false,'message'=>'Username or Email does not exist'));
 		}
 		else
 		{
@@ -92,7 +93,7 @@ class UserController extends Controller
 			}
 			else
 			{
-				echo json_encode(array('success'=>false,'message'=>'Password is not correct'));
+				echo json_encode(array('success'=>false,'message'=>'The password is incorrect'));
 			}
 		}
 
@@ -187,14 +188,14 @@ class UserController extends Controller
 				$userinfo = User::where('username',$updateinfo['username'])->where('id','!=',$user->id)->first();
 				if($userinfo)
 				{
-					return array('success'=>false,'message'=>'Username is already exist');
+					return array('success'=>false,'message'=>'The username already exists');
 				}
 			}
 
 			if(isset($updateinfo['email']))
 			{
 				$userinfo = User::where('email',$updateinfo['email'])->where('id','!=',$user->id)->first();	
-				return array('success'=>false,'message'=>'Email is already exist');
+				return array('success'=>false,'message'=>'The email already exists');
 			}
 
 

@@ -74,7 +74,7 @@ class AlertController extends Controller
 				{
 					if($user->balance < 1)
 					{
-						return array('success'=>false,'message'=>"You don't have enough balance to set alert paramaters");
+						return array('success'=>false,'message'=>"balance insufficient to set alert parameters");
 					}
 
 					$user->balance --;
@@ -99,7 +99,7 @@ class AlertController extends Controller
 					{
 						if($user->balance < 1)
 						{
-							return array('success'=>false,'message'=>"You don't have enough balance to set alert paramaters");
+							return array('success'=>false,'message'=>"balance insufficient to set alert parameters");
 						}
 
 						$user->balance --;
@@ -119,12 +119,12 @@ class AlertController extends Controller
 			}
 			else
 			{
-				return array('success'=>false,'message'=>'This game is not exist');
+				return array('success'=>false,'message'=>"This game doesn't exist");
 			}
 		}
 		else
 		{
-			return array('success'=>false,'message'=>'User token has been expired');
+			return array('success'=>false,'message'=>'User token has expired');
 		}
 	}
 }

@@ -224,13 +224,11 @@ class sportlistcommand extends Command
                 {
                     $index = array_search($team->team1,$sportinfo['teams']);
 
-                    $data_team1 = array('moneyline' => $sportinfo['moneyline'][0],'spread'=>$sportinfo['spreads']['points'][0],'total'=>$sportinfo['totals']['points'][0]);
-                    $data_team2 = array('moneyline' => $sportinfo['moneyline'][1],'spread'=>$sportinfo['spreads']['points'][1],'total'=>$sportinfo['totals']['points'][1]);
-
                     TeamHistory::create([
                         'gameid'=>$team->id,
-                        'team1'=>json_encode($data_team1),
-                        'team2'=>json_encode($data_team2),
+                        'total'=>json_encode($sportinfo['totals']),
+                        'moneyline'=>json_encode($sportinfo['moneyline']),
+                        'spread'=>json_encode($sportinfo['totals']),
                         'commencetime'=>$sportinfo['commence_time']
                     ]);
                 }   
