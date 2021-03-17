@@ -103,8 +103,14 @@ class sportlistcommand extends Command
             $sportslist = json_decode($response->getBody(),true);
 
             $sportsarray = [];
+            $scoreenable = false;
 
-            $scorearray = $this->getscore($sport->title);
+            if(new \DateTime()->format('H') < 3 || new \DateTime()->format('H') > 6)
+            {
+                $scorearray = $this->getscore($sport->title);    
+                $scoreenable = true;
+            }
+            
 
             $valid_games = array();
             if($sportslist['success'])
@@ -140,6 +146,21 @@ class sportlistcommand extends Command
                             array_push($valid_games, $keyinfo);
                             break;
                         }
+                    }
+
+                    if(!$scoreenable)
+                    {
+                        array_push($sportsarray,array(
+                            'commence_time'=>$sportinfo['commence_time'],
+                            'home_team'=>$sportinfo['home_team'],
+                            'teams'=>$sportinfo['teams'],
+                            'scheduled'=>gmdate('Y-M-d H:i:s',$sportinfo['commence_time']),
+                            'status'=>'scheduled',
+                            'moneyline'=>$sportinfo['sites'],
+                            'scoreboard'=>array()
+                        ));
+
+                        array_push($valid_games, $keyinfo);
                     }
                 }
             }    
