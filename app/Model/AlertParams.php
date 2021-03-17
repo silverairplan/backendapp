@@ -13,4 +13,9 @@ class AlertParams extends Model
 	{
 		return $this->belongsTo(Teams::class,'gameid');
 	}
+
+	public function user()
+	{
+		return $this->belongsTo(User::class,'userid');
+	}
 }

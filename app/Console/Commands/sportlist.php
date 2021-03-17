@@ -9,6 +9,8 @@ use App\Model\SportList;
 use App\Model\Sport;
 use App\Model\Teams;
 use App\Model\TeamHistory;
+use App\Model\History;
+use App\Model\AlertParams;
 
 class sportlistcommand extends Command
 {
@@ -253,6 +255,97 @@ class sportlistcommand extends Command
                         'spread'=>json_encode($sportinfo['spreads']),
                         'commencetime'=>$sportinfo['commence_time']
                     ]);
+
+                    $alertinfos = AlertParams::where('gameid',$team->id)->get();
+
+                    if($alertinfos && count($alertinfos) > 0)
+                    {
+                        foreach ($alertinfos as $alertinfo) {
+                            if($sportinfo['commence_time'] == $alertinfo->commencetime)
+                            {
+                                switch ($alertinfo->type) {
+                                    case 'SPREAD':
+                                        $index = array_search($alertinfo->team, $sportinfo['teams']);
+                                        if($index > -1)
+                                        {
+                                            $spreads = $this->getvalue($sportinfo['spreads'],'spreads',$alertinfo->user->sportsbook);
+                                            if($spreads['points'][$index] > $alertinfo->value)
+                                            {
+                                                History::create([
+                                                    'alertid'=>$alertinfo->id,
+                                                    'value'=>$spreads['points'][$index],
+                                                    'period'=>$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q',
+                                                    'type'=>'point',
+                                                    'userid'=>$alertinfo->user->id
+                                                ]);
+                                            }
+
+                                            if($spreads['odds'][$index] > $alertinfo->odd)
+                                            {
+                                                History::create([
+                                                    'alertid'=>$alertinfo->id,
+                                                    'value'=>$spreads['odds'][$index],
+                                                    'period'=>$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q',
+                                                    'type'=>'odd',
+                                                    'userid'=>$alertinfo->user->id
+                                                ]);
+                                            }
+                                        }
+                                        break;
+                                    case 'TOTAL':
+                                        $index = array_search($alertinfo->team, $sportinfo['teams']);
+                                        if($index > -1)
+                                        {
+                                            $totals = $this->getvalue($sportinfo['totals'],'totals',$alertinfo->user->sportsbook);
+                                            if($totals['points'][$index] > $alertinfo->value)
+                                            {
+                                                History::create([
+                                                    'alertid'=>$alertinfo->id,
+                                                    'value'=>$totals['points'][$index],
+                                                    'period'=>$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q',
+                                                    'type'=>'point',
+                                                    'userid'=>$alertinfo->user->id
+                                                ]);
+                                            }
+
+                                            if($totals['odds'][$index] > $alertinfo->odd)
+                                            {
+                                                History::create([
+                                                    'alertid'=>$alertinfo->id,
+                                                    'value'=>$totals['odds'][$index],
+                                                    'period'=>$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q',
+                                                    'type'=>'odd',
+                                                    'userid'=>$alertinfo->user->id
+                                                ]);
+                                            }
+                                        }
+                                        break;
+                                    case 'MONEYLINE':
+                                        $index = array_search($alertinfo->team, $sportinfo['teams']);
+                                        if($index > -1)
+                                        {
+                                            $moneyline = $this->getvalue($sportinfo['moneyline'],'moneyline',$alertinfo->user->sportsbook);
+                                            if($moneyline[$index] > $alertinfo->value)
+                                            {
+                                                History::create([
+                                                    'alertid'=>$alertinfo->id,
+                                                    'value'=>$moneyline[$index],
+                                                    'period'=>$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q',
+                                                    'type'=>'point',
+                                                    'userid'=>$alertinfo->user->id
+                                                ]);
+                                            }
+                                        }
+                                        break;
+                                    
+                                    default:
+                                        # code...
+                                        break;
+                                }    
+                            }
+                            
+                        }
+                    }
                 }   
                 else
                 {
@@ -267,6 +360,25 @@ class sportlistcommand extends Command
         //return $response->getBody();
 
         //
+    }
+
+    public function getvalue($data,$type,$site)
+    {
+        foreach ($data as $item) {
+            if($item['site_key'] == $site)
+            {
+                if($type == 'moneyline')
+                {
+                    return $data['moneyline'];
+                }
+                else
+                {
+                    return $data['odds'][$type];
+                }
+            }
+        }
+
+        return false;
     }
 
     public function getscore($game)
