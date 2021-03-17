@@ -19,7 +19,7 @@ class AlertController extends Controller
 	{
 		$token = $request->input('token');
 		$user = User::where('token',$token)->first();
-
+		
 		if($user)
 		{
 			$alerts = AlertParams::where('userid',$user->id)->get();

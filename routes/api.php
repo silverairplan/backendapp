@@ -41,3 +41,6 @@ Route::post('/watchlist/delete','WatchlistController@deletewatchlist');
 
 Route::post('/alert/update','AlertController@updatealert');
 Route::get('/alert/get','AlertController@getalerts');
+
+Route::get('/article/get','ArticleController@get_article');
+Route::get('/article/init','ArticleController@init_article');

@@ -31,6 +31,6 @@ class HistoryController extends Controller
 
 	public function createhistory(Request $request)
 	{
-
+		
 	}
 }
