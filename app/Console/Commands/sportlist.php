@@ -249,7 +249,7 @@ class sportlistcommand extends Command
                         'gameid'=>$team->id,
                         'total'=>json_encode($sportinfo['totals']),
                         'moneyline'=>json_encode($sportinfo['moneyline']),
-                        'spread'=>json_encode($sportinfo['totals']),
+                        'spread'=>json_encode($sportinfo['spreads']),
                         'commencetime'=>$sportinfo['commence_time']
                     ]);
                 }   
