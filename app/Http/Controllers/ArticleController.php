@@ -10,7 +10,7 @@
 	{
 		public function get_article(Request $request)
 		{
-			$articles = Article::all()->orderBy('created_at','DESC');
+			$articles = Article::orderBy('created_at','DESC')->get();
 			return array('success'=>true,'articles'=>$articles);
 		}
 
