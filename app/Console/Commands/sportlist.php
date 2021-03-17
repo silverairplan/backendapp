@@ -105,7 +105,8 @@ class sportlistcommand extends Command
             $sportsarray = [];
             $scoreenable = false;
 
-            if(new \DateTime()->format('H') < 3 || new \DateTime()->format('H') > 6)
+            $nowtime = new \DateTime();
+            if($nowtime->format('H') < 3 || $nowtime->format('H') > 6)
             {
                 $scorearray = $this->getscore($sport->title);    
                 $scoreenable = true;
