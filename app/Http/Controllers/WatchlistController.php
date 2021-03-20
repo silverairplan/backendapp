@@ -29,13 +29,18 @@ class WatchlistController extends Controller
 			
 			if($team)
 			{
-				$watchlist = array(
-					'userid'=>$user->id,
-					'gameid'=>$team->id
-				);
+				$watchlistinfo = Watchlist::where('gameid',$team->id)->where('userid',$user->id)->first();
+				if($watchlist)
+				{
+					$watchlist = array(
+						'userid'=>$user->id,
+						'gameid'=>$team->id
+					);
 
-				$watchlistinfo = new Watchlist($watchlist);
-				$watchlistinfo->save();
+					$watchlistinfo = new Watchlist($watchlist);
+					$watchlistinfo->save();
+				}
+				
 				return array('success'=>true);
 			}
 			else
