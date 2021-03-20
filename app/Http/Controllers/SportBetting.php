@@ -159,11 +159,7 @@ class SportBetting extends Controller
                 
                 if($enable)
                 {
-                    $team = null;
-                    if($sportdatainfo['status'] == 'in progress')
-                    {
-                        $team = Teams::where('team1',$sportdatainfo['teams'][0])->where('team2',$sportdatainfo['teams'][1])->first();
-                    }
+                    $team = Teams::where('team1',$sportdatainfo['teams'][0])->where('team2',$sportdatainfo['teams'][1])->first();
 
                     if($team)
                     {
