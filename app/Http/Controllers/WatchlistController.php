@@ -30,7 +30,7 @@ class WatchlistController extends Controller
 			if($team)
 			{
 				$watchlistinfo = Watchlist::where('gameid',$team->id)->where('userid',$user->id)->first();
-				if($watchlist)
+				if($watchlistinfo)
 				{
 					$watchlist = array(
 						'userid'=>$user->id,
