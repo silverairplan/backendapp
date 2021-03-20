@@ -102,4 +102,39 @@ class WatchlistController extends Controller
 			return array('success'=>false);
 		}
 	}
+
+	public function setfavourite(Request $request)
+	{
+		$token = $request->input('token');
+		$favourite = $request->input('favourite');
+		$teams = $request->input('teams');
+
+		$user = User::where('token',$token)->first();
+
+		if($user)
+		{
+			$team = Teams::where('team1',$teams[0])->where('team2',$teams[1])->first();
+			if($team)
+			{
+				$watchlist = Watchlist::where('gameid',$team->id)->where('userid',$user->id)->first();
+				if($watchlist)
+				{
+					$watchlist->update(['is_favourite'=>$favourite]);
+					return array('success'=>true);
+				}
+				else
+				{
+					return array('success'=>false);
+				}
+			}
+			else
+			{
+				return array('success'=>false);
+			}
+		}
+		else
+		{
+			return array('success'=>false);
+		}
+	}
 }
