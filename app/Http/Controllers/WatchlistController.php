@@ -26,13 +26,7 @@ class WatchlistController extends Controller
 		{
 			$team = Teams::where('team1',$teams[0])->where('team2',$teams[1])->first();
 
-			if(!$team)
-			{
-				$team = Teams::where('team1',$teams[1])->where('team2',$teams[0])->first();
-			}
-
-
-
+			
 			if($team)
 			{
 				$watchlist = array(
