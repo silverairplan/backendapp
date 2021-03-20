@@ -8,5 +8,10 @@ class Favourites extends Model
 {
     //
     protected $table = "favourites";
-    protected $fillable = ['title', 'content'];
+    protected $fillable = ['userid', 'gameid'];
+
+    function getteams()
+	{
+		return $this->belongsTo(Teams::class,'gameid');
+	}
 }

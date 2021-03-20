@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\App;
 use App\Model\Watchlist;
 use App\Model\Teams;
 use App\Model\User;
+use App\Model\Favourites;
 
 class WatchlistController extends Controller
 {
@@ -116,21 +117,63 @@ class WatchlistController extends Controller
 			$team = Teams::where('team1',$teams[0])->where('team2',$teams[1])->first();
 			if($team)
 			{
-				$watchlist = Watchlist::where('gameid',$team->id)->where('userid',$user->id)->first();
-				if($watchlist)
+				$favouriteinfo = Favourites::where('gameid',$team->id)->where('userid',$user->id)->first();
+
+				if($favourite)
 				{
-					$watchlist->update(['is_favourite'=>$favourite]);
-					return array('success'=>true);
+					if(!$favouriteinfo)
+					{
+						Favourites::create(
+							[
+								'gameid'=>$team->id,
+								'userid'=>$user->id
+							]
+						);
+					}
 				}
 				else
 				{
-					return array('success'=>false);
+					if($favouriteinfo)
+					{
+						$favouriteinfo->delete();
+					}
 				}
+
+				return array('success'=>true);
 			}
 			else
 			{
 				return array('success'=>false);
 			}
+		}
+		else
+		{
+			return array('success'=>false);
+		}
+	}
+
+	public function getfavourites(Request $request)
+	{
+		$token = $request->input('token');
+
+		$user = User::where('token',$token)->first();
+
+		if($user)
+		{
+			$favourites = Favourites::where('userid',$user->id)->get();
+			$array = array();
+			foreach($favourites as $favourite)
+			{
+				$team = $favourite->getteams;
+				array_push($array,array(
+					'id'=>$favourite->id,
+					'team1'=>$team->team1,
+					'team2'=>$team->team2
+				));
+			}
+
+			return array('success'=>true,'data'=>$array);
+			
 		}
 		else
 		{

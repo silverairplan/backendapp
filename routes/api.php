@@ -39,6 +39,7 @@ Route::get('/watchlist/get','WatchlistController@getwatchlist');
 Route::post('/watchlist/create','WatchlistController@createwatchlist');
 Route::post('/watchlist/delete','WatchlistController@deletewatchlist');
 Route::post('/watchlist/favourite','WatchlistController@setfavourite');
+Route::get('/watchlist/getfav','WatchlistController@getfavourites');
 
 Route::post('/alert/update','AlertController@updatealert');
 Route::get('/alert/get','AlertController@getalerts');
