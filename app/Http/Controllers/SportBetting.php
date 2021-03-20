@@ -129,9 +129,6 @@ class SportBetting extends Controller
                         break;
                     }
                 }
-                
-
-                
 
                 if($enable)
                 {
@@ -150,8 +147,7 @@ class SportBetting extends Controller
                 if($enable)
                 {
                     $enable = false;
-
-                     foreach ($sportdata['totals'] as $datainfo) {
+                    foreach ($sportdata['totals'] as $datainfo) {
                         if($datainfo['site_key'] == $site)
                         {
                             $enable = true;
@@ -159,7 +155,6 @@ class SportBetting extends Controller
                             break;
                         }
                     }
-
                 }
                 
                 if($enable)
@@ -167,12 +162,7 @@ class SportBetting extends Controller
                     $team = null;
                     if($sportdatainfo['status'] == 'in progress')
                     {
-                        $team = Teams::where('team1',$sportdata['teams'][0])->where('team2',$sportdatainfo['teams'][1])->first();
-
-                        if(!$team)
-                        {
-                            $team = Teams::where('team2',$sportdata['teams'][0])->where('team1',$sportdatainfo['teams'][1])->first();
-                        }
+                        $team = Teams::where('team1',$sportdatainfo['teams'][0])->where('team2',$sportdatainfo['teams'][1])->first();
                     }
 
                     if($team)
@@ -236,39 +226,36 @@ class SportBetting extends Controller
                         $sportdatainfo['closed_moneyline'] = $sportdatainfo['moneyline'];
                     }
 
-                    if($sportdatainfo['status'] == 'in progress')
-                    {
-                        $sportdatainfo['history'] = array();
-                        $teamlists = TeamHistory::where('gameid',$team->id)->get();
+                    $sportdatainfo['history'] = array();
+                    $teamlists = TeamHistory::where('gameid',$team->id)->get();
 
-                        foreach ($teamlists as $teamhistory) {
-                            $spreads = json_decode($teamhistory->spread,true);
-                            $totals = json_decode($teamhistory->total,true);
-                            $moneyline = json_decode($teamhistory->moneyline,true);
-                            $spreadinfo = array();
-                            foreach ($spreads as $info) {
-                                if($info['site_key'] == $site)
-                                {
-                                    $spreadinfo['spread'] = $info['odds']['spreads'];
-                                }
+                    foreach ($teamlists as $teamhistory) {
+                        $spreads = json_decode($teamhistory->spread,true);
+                        $totals = json_decode($teamhistory->total,true);
+                        $moneyline = json_decode($teamhistory->moneyline,true);
+                        $spreadinfo = array();
+                        foreach ($spreads as $info) {
+                            if($info['site_key'] == $site)
+                            {
+                                $spreadinfo['spread'] = $info['odds']['spreads'];
                             }
-
-                            foreach ($totals as $info) {
-                                if($info['site_key'] == $site)
-                                {
-                                    $spreadinfo['total'] = $info['odds']['totals'];
-                                }
-                            }
-
-                            foreach ($moneyline as $info) {
-                                if($info['site_key'] == $site)
-                                {
-                                    $spreadinfo['moneyline'] = $info['odds']['h2h'];
-                                }
-                            }
-
-                            array_push($sportdatainfo['history'], $spreadinfo);
                         }
+
+                        foreach ($totals as $info) {
+                            if($info['site_key'] == $site)
+                            {
+                                $spreadinfo['total'] = $info['odds']['totals'];
+                            }
+                        }
+
+                        foreach ($moneyline as $info) {
+                            if($info['site_key'] == $site)
+                            {
+                                $spreadinfo['moneyline'] = $info['odds']['h2h'];
+                            }
+                        }
+
+                        array_push($sportdatainfo['history'], $spreadinfo);
                     }
 
                     array_push($resultarray[$sport->title],$sportdatainfo);
@@ -279,6 +266,7 @@ class SportBetting extends Controller
 
         return array('success'=>true,'result'=>$resultarray);
     }
+
 
     function getscore($game,$date)
     {

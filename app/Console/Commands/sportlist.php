@@ -213,11 +213,6 @@ class sportlistcommand extends Command
             foreach ($sportsarray as $sportinfo) {
                 $team = Teams::where('team1',$sportinfo['teams'][0])->where('team2',$sportinfo['teams'][1])->first();
 
-                if(!$team)
-                {
-                    $team = Teams::where('team1',$sportinfo['teams'][1])->where('team2',$sportinfo['teams'][0])->first();
-                }
-
                 if($team)
                 {
                     if($team->commence_time != $sportinfo['commence_time'] || $team->status != $sportinfo['status'])
@@ -244,112 +239,109 @@ class sportlistcommand extends Command
                     ]);
                 }
 
-                if($team->status == 'in progress')
+                $index = array_search($team->team1,$sportinfo['teams']);
+
+                $now = time();
+                $beforetime = $now - 3 * 3600;
+
+                TeamHistory::where('created_at','<',date('Y-m-d H:i:s',$beforetime))->where('gameid',$team->id)->delete();
+                TeamHistory::create([
+                    'gameid'=>$team->id,
+                    'total'=>json_encode($sportinfo['totals']),
+                    'moneyline'=>json_encode($sportinfo['moneyline']),
+                    'spread'=>json_encode($sportinfo['spreads']),
+                    'commencetime'=>$sportinfo['commence_time']
+                ]);
+
+                $alertinfos = AlertParams::where('gameid',$team->id)->get();
+
+                if($alertinfos && count($alertinfos) > 0)
                 {
-                    $index = array_search($team->team1,$sportinfo['teams']);
-
-                    TeamHistory::create([
-                        'gameid'=>$team->id,
-                        'total'=>json_encode($sportinfo['totals']),
-                        'moneyline'=>json_encode($sportinfo['moneyline']),
-                        'spread'=>json_encode($sportinfo['spreads']),
-                        'commencetime'=>$sportinfo['commence_time']
-                    ]);
-
-                    $alertinfos = AlertParams::where('gameid',$team->id)->get();
-
-                    if($alertinfos && count($alertinfos) > 0)
-                    {
-                        foreach ($alertinfos as $alertinfo) {
-                            if($sportinfo['commence_time'] == $alertinfo->commencetime)
-                            {
-                                switch ($alertinfo->type) {
-                                    case 'SPREAD':
-                                        $index = array_search($alertinfo->team, $sportinfo['teams']);
-                                        if($index > -1)
+                    foreach ($alertinfos as $alertinfo) {
+                        if($sportinfo['commence_time'] == $alertinfo->commencetime)
+                        {
+                            switch ($alertinfo->type) {
+                                case 'SPREAD':
+                                    $index = array_search($alertinfo->team, $sportinfo['teams']);
+                                    if($index > -1)
+                                    {
+                                        $spreads = $this->getvalue($sportinfo['spreads'],'spreads',$alertinfo->user->sportsbook);
+                                        if($spreads['points'][$index] > $alertinfo->value)
                                         {
-                                            $spreads = $this->getvalue($sportinfo['spreads'],'spreads',$alertinfo->user->sportsbook);
-                                            if($spreads['points'][$index] > $alertinfo->value)
-                                            {
-                                                History::create([
-                                                    'alertid'=>$alertinfo->id,
-                                                    'value'=>$spreads['points'][$index],
-                                                    'period'=>$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q',
-                                                    'type'=>'point',
-                                                    'userid'=>$alertinfo->user->id
-                                                ]);
-                                            }
+                                            History::create([
+                                                'alertid'=>$alertinfo->id,
+                                                'value'=>$spreads['points'][$index],
+                                                'period'=>$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q',
+                                                'type'=>'point',
+                                                'userid'=>$alertinfo->user->id
+                                            ]);
+                                        }
 
-                                            if($spreads['odds'][$index] > $alertinfo->odd)
-                                            {
-                                                History::create([
-                                                    'alertid'=>$alertinfo->id,
-                                                    'value'=>$spreads['odds'][$index],
-                                                    'period'=>$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q',
-                                                    'type'=>'odd',
-                                                    'userid'=>$alertinfo->user->id
-                                                ]);
-                                            }
-                                        }
-                                        break;
-                                    case 'TOTAL':
-                                        $index = array_search($alertinfo->team, $sportinfo['teams']);
-                                        if($index > -1)
+                                        if($spreads['odds'][$index] > $alertinfo->odd)
                                         {
-                                            $totals = $this->getvalue($sportinfo['totals'],'totals',$alertinfo->user->sportsbook);
-                                            if($totals['points'][$index] > $alertinfo->value)
-                                            {
-                                                History::create([
-                                                    'alertid'=>$alertinfo->id,
-                                                    'value'=>$totals['points'][$index],
-                                                    'period'=>$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q',
-                                                    'type'=>'point',
-                                                    'userid'=>$alertinfo->user->id
-                                                ]);
-                                            }
+                                            History::create([
+                                                'alertid'=>$alertinfo->id,
+                                                'value'=>$spreads['odds'][$index],
+                                                'period'=>$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q',
+                                                'type'=>'odd',
+                                                'userid'=>$alertinfo->user->id
+                                            ]);
+                                        }
+                                    }
+                                    break;
+                                case 'TOTAL':
+                                    $index = array_search($alertinfo->team, $sportinfo['teams']);
+                                    if($index > -1)
+                                    {
+                                        $totals = $this->getvalue($sportinfo['totals'],'totals',$alertinfo->user->sportsbook);
+                                        if($totals['points'][$index] > $alertinfo->value)
+                                        {
+                                            History::create([
+                                                'alertid'=>$alertinfo->id,
+                                                'value'=>$totals['points'][$index],
+                                                'period'=>$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q',
+                                                'type'=>'point',
+                                                'userid'=>$alertinfo->user->id
+                                            ]);
+                                        }
 
-                                            if($totals['odds'][$index] > $alertinfo->odd)
-                                            {
-                                                History::create([
-                                                    'alertid'=>$alertinfo->id,
-                                                    'value'=>$totals['odds'][$index],
-                                                    'period'=>$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q',
-                                                    'type'=>'odd',
-                                                    'userid'=>$alertinfo->user->id
-                                                ]);
-                                            }
-                                        }
-                                        break;
-                                    case 'MONEYLINE':
-                                        $index = array_search($alertinfo->team, $sportinfo['teams']);
-                                        if($index > -1)
+                                        if($totals['odds'][$index] > $alertinfo->odd)
                                         {
-                                            $moneyline = $this->getvalue($sportinfo['moneyline'],'moneyline',$alertinfo->user->sportsbook);
-                                            if($moneyline[$index] > $alertinfo->value)
-                                            {
-                                                History::create([
-                                                    'alertid'=>$alertinfo->id,
-                                                    'value'=>$moneyline[$index],
-                                                    'period'=>$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q',
-                                                    'type'=>'point',
-                                                    'userid'=>$alertinfo->user->id
-                                                ]);
-                                            }
+                                            History::create([
+                                                'alertid'=>$alertinfo->id,
+                                                'value'=>$totals['odds'][$index],
+                                                'period'=>$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q',
+                                                'type'=>'odd',
+                                                'userid'=>$alertinfo->user->id
+                                            ]);
                                         }
-                                        break;
-                                    
-                                    default:
-                                        # code...
-                                        break;
-                                }    
-                            }
-                            
+                                    }
+                                    break;
+                                case 'MONEYLINE':
+                                    $index = array_search($alertinfo->team, $sportinfo['teams']);
+                                    if($index > -1)
+                                    {
+                                        $moneyline = $this->getvalue($sportinfo['moneyline'],'moneyline',$alertinfo->user->sportsbook);
+                                        if($moneyline[$index] > $alertinfo->value)
+                                        {
+                                            History::create([
+                                                'alertid'=>$alertinfo->id,
+                                                'value'=>$moneyline[$index],
+                                                'period'=>$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q',
+                                                'type'=>'point',
+                                                'userid'=>$alertinfo->user->id
+                                            ]);
+                                        }
+                                    }
+                                    break;
+                                
+                                default:
+                                    # code...
+                                    break;
+                            }    
                         }
+                        
                     }
-                }   
-                else
-                {
-                    TeamHistory::where('gameid',$team->id)->delete();
                 }
             }
 
