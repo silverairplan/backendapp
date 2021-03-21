@@ -244,7 +244,7 @@ class sportlistcommand extends Command
                 $now = time();
                 $beforetime = $now - 3 * 3600;
 
-                TeamHistory::where('created_at','<',date('Y-m-d H:i:s',$beforetime))->where('gameid',$team->id)->delete();
+                TeamHistory::where('created_at','<',date('Y-m-d H:i:s',$beforetime))->delete();
                 TeamHistory::create([
                     'gameid'=>$team->id,
                     'total'=>json_encode($sportinfo['totals']),
