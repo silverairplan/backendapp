@@ -38,8 +38,7 @@ class WatchlistController extends Controller
 						'gameid'=>$team->id
 					);
 
-					$watchlistinfo = new Watchlist($watchlist);
-					$watchlistinfo->save();
+					Watchlist::create($watchlist);
 				}
 				
 				return array('success'=>true);
