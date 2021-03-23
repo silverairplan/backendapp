@@ -266,7 +266,7 @@ class sportlistcommand extends Command
                                 $index = array_search($alertinfo->team, $sportinfo['teams']);
                                 if($index > -1)
                                 {
-                                    $spreads = $this->getvalue($sportinfo['spreads'],'spreads',$alertinfo->user->sportsbook);
+                                    $spreads = $this->getvalue($sportinfo['spreads'],'spreads',$alertinfo->user->sports_book);
                                     var_dump($spreads);
                                     if($spreads['points'][$index] > $alertinfo->value)
                                     {
