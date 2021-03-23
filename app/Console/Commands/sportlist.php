@@ -261,13 +261,13 @@ class sportlistcommand extends Command
                 if($alertinfos && count($alertinfos) > 0)
                 {
                     foreach ($alertinfos as $alertinfo) {
-                        var_dump($alertinfo->type);
                          switch ($alertinfo->type && $alertinfo->user->alert_enable) {
                             case 'SPREAD':
                                 $index = array_search($alertinfo->team, $sportinfo['teams']);
                                 if($index > -1)
                                 {
                                     $spreads = $this->getvalue($sportinfo['spreads'],'spreads',$alertinfo->user->sportsbook);
+                                    var_dump($spreads);
                                     if($spreads['points'][$index] > $alertinfo->value)
                                     {
                                         History::create([
