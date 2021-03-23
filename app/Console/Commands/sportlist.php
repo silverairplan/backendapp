@@ -256,7 +256,7 @@ class sportlistcommand extends Command
                 ]);
 
                 $alertinfos = AlertParams::where('gameid',$team->id)->where('commencetime',$sportinfo['commence_time'])->where('updated_at','<',date('Y-m-d H:i:s',$nowtime))->get();
-
+                var_dump(count($alertinfos));
 
                 if($alertinfos && count($alertinfos) > 0)
                 {
