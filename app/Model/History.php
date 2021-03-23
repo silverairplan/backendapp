@@ -8,7 +8,7 @@ class History extends Model
 {
     //
     protected $table = "history";
-    protected $fillable = ['alertid', 'value','period','type'];
+    protected $fillable = ['alertid', 'value','period','type','userid'];
 
     public function alert()
 	{
