@@ -34,6 +34,7 @@ Route::post("/user/social_login",'UserController@social_login');
 Route::post("/user/upload",'UserController@upload_profile');
 Route::post("/user/setprofile","UserController@set_profile");
 Route::get('/user/get','UserController@getuser');
+Route::post('/user/notification','UserController@set_notificationtoken');
 
 Route::get('/watchlist/get','WatchlistController@getwatchlist');
 Route::post('/watchlist/create','WatchlistController@createwatchlist');

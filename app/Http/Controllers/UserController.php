@@ -173,6 +173,24 @@ class UserController extends Controller
 		}
 	}
 
+	public function set_notificationtoken(Request $request)
+	{
+		$token = $request->input('token');
+		$notification = $request->input('notification');
+
+		$user = User::where('token',$token)->first();
+
+		if($user)
+		{
+			$user->update(['notification_token'=>$notification]);
+			return array('success'=>true);
+		}
+		else
+		{
+			return array('success'=>false);
+		}
+	}
+
 	public function set_profile(Request $request)
 	{
 		$token = $request->input('token');
