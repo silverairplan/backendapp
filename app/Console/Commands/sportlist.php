@@ -273,7 +273,7 @@ class sportlistcommand extends Command
                                         History::create([
                                             'alertid'=>$alertinfo->id,
                                             'value'=>$spreads['points'][$index],
-                                            'period'=>$sportinfo['scoreboard']['periodTimeRemaining']?$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q':'',
+                                            'period'=>isset($sportinfo['scoreboard']['periodTimeRemaining'])?$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q':'',
                                             'type'=>'point',
                                             'userid'=>$alertinfo->user->id
                                         ]);
@@ -292,7 +292,7 @@ class sportlistcommand extends Command
                                         History::create([
                                             'alertid'=>$alertinfo->id,
                                             'value'=>$spreads['odds'][$index],
-                                            'period'=>$sportinfo['scoreboard']['periodTimeRemaining']?$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q':'',
+                                            'period'=>isset($sportinfo['scoreboard']['periodTimeRemaining'])?$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q':'',
                                             'type'=>'odd',
                                             'userid'=>$alertinfo->user->id
                                         ]);
@@ -316,7 +316,7 @@ class sportlistcommand extends Command
                                         History::create([
                                             'alertid'=>$alertinfo->id,
                                             'value'=>$totals['points'][$index],
-                                            'period'=>$sportinfo['scoreboard']['periodTimeRemaining']?$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q':'',
+                                            'period'=>isset($sportinfo['scoreboard']['periodTimeRemaining'])?$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q':'',
                                             'type'=>'point',
                                             'userid'=>$alertinfo->user->id
                                         ]);
@@ -334,7 +334,7 @@ class sportlistcommand extends Command
                                         History::create([
                                             'alertid'=>$alertinfo->id,
                                             'value'=>$totals['odds'][$index],
-                                            'period'=>$sportinfo['scoreboard']['periodTimeRemaining']?$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q':'',
+                                            'period'=>isset($sportinfo['scoreboard']['periodTimeRemaining'])?$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q':'',
                                             'type'=>'odd',
                                             'userid'=>$alertinfo->user->id
                                         ]);
@@ -357,7 +357,7 @@ class sportlistcommand extends Command
                                         History::create([
                                             'alertid'=>$alertinfo->id,
                                             'value'=>$moneyline[$index],
-                                            'period'=>$sportinfo['scoreboard']['periodTimeRemaining']?$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q':'',
+                                            'period'=>isset($sportinfo['scoreboard']['periodTimeRemaining'])?$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q':'',
                                             'type'=>'point',
                                             'userid'=>$alertinfo->user->id
                                         ]);
