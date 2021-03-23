@@ -11,6 +11,7 @@ use App\Model\Teams;
 use App\Model\TeamHistory;
 use App\Model\History;
 use App\Model\AlertParams;
+use Kreait\Firebase\Messaging\CloudMessage;
 
 class sportlistcommand extends Command
 {
@@ -243,6 +244,7 @@ class sportlistcommand extends Command
 
                 $now = time();
                 $beforetime = $now - 3 * 3600;
+                $nowtime = $now - 60;
 
                 TeamHistory::where('created_at','<',date('Y-m-d H:i:s',$beforetime))->delete();
                 TeamHistory::create([
@@ -253,92 +255,124 @@ class sportlistcommand extends Command
                     'commencetime'=>$sportinfo['commence_time']
                 ]);
 
-                $alertinfos = AlertParams::where('gameid',$team->id)->get();
+                $alertinfos = AlertParams::where('gameid',$team->id)->where('commencetime',$sportinfo['commence_time'])->where('updated_at','<',date('Y-m-d H:i:s',$nowtime))->get();
 
                 if($alertinfos && count($alertinfos) > 0)
                 {
                     foreach ($alertinfos as $alertinfo) {
-                        if($sportinfo['commence_time'] == $alertinfo->commencetime)
-                        {
-                            switch ($alertinfo->type) {
-                                case 'SPREAD':
-                                    $index = array_search($alertinfo->team, $sportinfo['teams']);
-                                    if($index > -1)
+                         switch ($alertinfo->type && $alertinfo->user->alert_enable) {
+                            case 'SPREAD':
+                                $index = array_search($alertinfo->team, $sportinfo['teams']);
+                                if($index > -1)
+                                {
+                                    $spreads = $this->getvalue($sportinfo['spreads'],'spreads',$alertinfo->user->sportsbook);
+                                    if($spreads['points'][$index] > $alertinfo->value)
                                     {
-                                        $spreads = $this->getvalue($sportinfo['spreads'],'spreads',$alertinfo->user->sportsbook);
-                                        if($spreads['points'][$index] > $alertinfo->value)
-                                        {
-                                            History::create([
-                                                'alertid'=>$alertinfo->id,
-                                                'value'=>$spreads['points'][$index],
-                                                'period'=>$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q',
-                                                'type'=>'point',
-                                                'userid'=>$alertinfo->user->id
-                                            ]);
-                                        }
+                                        History::create([
+                                            'alertid'=>$alertinfo->id,
+                                            'value'=>$spreads['points'][$index],
+                                            'period'=>$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q',
+                                            'type'=>'point',
+                                            'userid'=>$alertinfo->user->id
+                                        ]);
 
-                                        if($spreads['odds'][$index] > $alertinfo->odd)
-                                        {
-                                            History::create([
-                                                'alertid'=>$alertinfo->id,
-                                                'value'=>$spreads['odds'][$index],
-                                                'period'=>$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q',
-                                                'type'=>'odd',
-                                                'userid'=>$alertinfo->user->id
-                                            ]);
-                                        }
-                                    }
-                                    break;
-                                case 'TOTAL':
-                                    $index = array_search($alertinfo->team, $sportinfo['teams']);
-                                    if($index > -1)
-                                    {
-                                        $totals = $this->getvalue($sportinfo['totals'],'totals',$alertinfo->user->sportsbook);
-                                        if($totals['points'][$index] > $alertinfo->value)
-                                        {
-                                            History::create([
-                                                'alertid'=>$alertinfo->id,
-                                                'value'=>$totals['points'][$index],
-                                                'period'=>$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q',
-                                                'type'=>'point',
-                                                'userid'=>$alertinfo->user->id
-                                            ]);
-                                        }
+                                        $alertinfo->update(['sended'=>!$alertinfo->sended]);
 
-                                        if($totals['odds'][$index] > $alertinfo->odd)
+                                        if($alertinfo->user->notification_token)
                                         {
-                                            History::create([
-                                                'alertid'=>$alertinfo->id,
-                                                'value'=>$totals['odds'][$index],
-                                                'period'=>$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q',
-                                                'type'=>'odd',
-                                                'userid'=>$alertinfo->user->id
-                                            ]);
+                                            $this->senddevice('Spread for ' . $alertinfo->team . ' has been limited with ' . $spreads['points'][$index] . ' for game ' . $sportinfo['teams'][0] . '@' . $sportinfo['teams'][1],$alertinfo->user->notification_token);    
                                         }
+                                        
                                     }
-                                    break;
-                                case 'MONEYLINE':
-                                    $index = array_search($alertinfo->team, $sportinfo['teams']);
-                                    if($index > -1)
+
+                                    if($spreads['odds'][$index] > $alertinfo->odd)
                                     {
-                                        $moneyline = $this->getvalue($sportinfo['moneyline'],'moneyline',$alertinfo->user->sportsbook);
-                                        if($moneyline[$index] > $alertinfo->value)
+                                        History::create([
+                                            'alertid'=>$alertinfo->id,
+                                            'value'=>$spreads['odds'][$index],
+                                            'period'=>$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q',
+                                            'type'=>'odd',
+                                            'userid'=>$alertinfo->user->id
+                                        ]);
+
+                                        $alertinfo->update(['sended'=>!$alertinfo->sended]);
+
+                                        if($alertinfo->user->notification_token)
                                         {
-                                            History::create([
-                                                'alertid'=>$alertinfo->id,
-                                                'value'=>$moneyline[$index],
-                                                'period'=>$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q',
-                                                'type'=>'point',
-                                                'userid'=>$alertinfo->user->id
-                                            ]);
+                                            $this->senddevice('Spread Odd for ' . $alertinfo->team . ' has been limited with ' . $spreads['points'][$index] . ' for game ' . $sportinfo['teams'][0] . '@' . $sportinfo['teams'][1],$alertinfo->user->notification_token);    
                                         }
                                     }
-                                    break;
-                                
-                                default:
-                                    # code...
-                                    break;
-                            }    
+                                }
+                                break;
+                            case 'TOTAL':
+                                $index = array_search($alertinfo->team, $sportinfo['teams']);
+                                if($index > -1)
+                                {
+                                    $totals = $this->getvalue($sportinfo['totals'],'totals',$alertinfo->user->sportsbook);
+                                    if($totals['points'][$index] > $alertinfo->value)
+                                    {
+                                        History::create([
+                                            'alertid'=>$alertinfo->id,
+                                            'value'=>$totals['points'][$index],
+                                            'period'=>$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q',
+                                            'type'=>'point',
+                                            'userid'=>$alertinfo->user->id
+                                        ]);
+
+                                        $alertinfo->update(['sended'=>!$alertinfo->sended]);
+
+                                        if($alertinfo->user->notification_token)
+                                        {
+                                            $this->senddevice('Total for ' . $alertinfo->team . ' has been limited with ' . $totals['points'][$index] . ' for game ' . $sportinfo['teams'][0] . '@' . $sportinfo['teams'][1],$alertinfo->user->notification_token);    
+                                        }
+                                    }
+
+                                    if($totals['odds'][$index] > $alertinfo->odd)
+                                    {
+                                        History::create([
+                                            'alertid'=>$alertinfo->id,
+                                            'value'=>$totals['odds'][$index],
+                                            'period'=>$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q',
+                                            'type'=>'odd',
+                                            'userid'=>$alertinfo->user->id
+                                        ]);
+                                        $alertinfo->update(['sended'=>!$alertinfo->sended]);
+
+                                        if($alertinfo->user->notification_token)
+                                        {
+                                            $this->senddevice('Total Odd for ' . $alertinfo->team . ' has been limited with ' . $totals['odds'][$index] . ' for game ' . $sportinfo['teams'][0] . '@' . $sportinfo['teams'][1],$alertinfo->user->notification_token);    
+                                        }
+                                    }
+                                }
+                                break;
+                            case 'MONEYLINE':
+                                $index = array_search($alertinfo->team, $sportinfo['teams']);
+                                if($index > -1)
+                                {
+                                    $moneyline = $this->getvalue($sportinfo['moneyline'],'moneyline',$alertinfo->user->sportsbook);
+                                    if($moneyline[$index] > $alertinfo->value)
+                                    {
+                                        History::create([
+                                            'alertid'=>$alertinfo->id,
+                                            'value'=>$moneyline[$index],
+                                            'period'=>$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q',
+                                            'type'=>'point',
+                                            'userid'=>$alertinfo->user->id
+                                        ]);
+
+                                        $alertinfo->update(['sended'=>!$alertinfo->sended]);
+
+                                        if($alertinfo->user->notification_token)
+                                        {
+                                            $this->senddevice('Moneyline for ' . $alertinfo->team . ' has been limited with ' . $moneyline[$index] . ' for game ' . $sportinfo['teams'][0] . '@' . $sportinfo['teams'][1],$alertinfo->user->notification_token);    
+                                        }
+                                    }
+                                }
+                                break;
+                            
+                            default:
+                                # code...
+                                break;
                         }
                         
                     }
@@ -352,6 +386,13 @@ class sportlistcommand extends Command
         //return $response->getBody();
 
         //
+    }
+
+    public function senddevice($message,$token)
+    {
+        $messaging = app('firebase.messaging');
+        $message = CloudMessage::withTarget('token',$token)->withNotification(['title'=>'Notification','body'=>$message]);
+        $messaging->send($message);
     }
 
     public function getvalue($data,$type,$site)

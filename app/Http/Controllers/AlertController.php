@@ -8,6 +8,9 @@ use App\Model\User;
 use App\Model\Teams;
 use App\Model\AlertParams;
 
+
+
+
 class AlertController extends Controller
 {
 	public function __construct()
