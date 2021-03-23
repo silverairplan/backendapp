@@ -310,7 +310,7 @@ class sportlistcommand extends Command
                                 $index = array_search($alertinfo->team, $sportinfo['teams']);
                                 if($index > -1)
                                 {
-                                    $totals = $this->getvalue($sportinfo['totals'],'totals',$alertinfo->user->sportsbook);
+                                    $totals = $this->getvalue($sportinfo['totals'],'totals',$alertinfo->user->sports_book);
                                     if($totals['points'][$index] > $alertinfo->value)
                                     {
                                         History::create([
@@ -351,7 +351,7 @@ class sportlistcommand extends Command
                                 $index = array_search($alertinfo->team, $sportinfo['teams']);
                                 if($index > -1)
                                 {
-                                    $moneyline = $this->getvalue($sportinfo['moneyline'],'moneyline',$alertinfo->user->sportsbook);
+                                    $moneyline = $this->getvalue($sportinfo['moneyline'],'moneyline',$alertinfo->user->sports_book);
                                     if($moneyline[$index] > $alertinfo->value)
                                     {
                                         History::create([
@@ -404,11 +404,11 @@ class sportlistcommand extends Command
             {
                 if($type == 'moneyline')
                 {
-                    return $data['moneyline'];
+                    return $item['moneyline'];
                 }
                 else
                 {
-                    return $data['odds'][$type];
+                    return $item['odds'][$type];
                 }
             }
         }
