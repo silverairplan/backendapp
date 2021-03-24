@@ -20,7 +20,7 @@
 	            				</div>
 	            				<div class="form-group">
 	            					<label for="content" class="control-label mb-1">Content</label>
-	            					<textarea class="form-control" name="content" id="content" required="" value="{{$article?$article->content:''}}"></textarea>
+	            					<textarea class="form-control" name="content" id="content" required="" value="{{$article?$article->content:''}}">{{$article?$article->content:''}}</textarea>
 	            				</div>
 	            				<div>
 	            					<a href="{{route('articles')}}" class="btn btn-secondary">Cancel</a>
