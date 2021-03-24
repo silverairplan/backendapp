@@ -79,6 +79,32 @@ class SiteController extends Controller
     	}
     }
 
+    public function doregister(Request $request)
+    {
+        $user = $request->input();
+        $userinfo = User::where('username',$user['username'])->first();
+        if($userinfo)
+        {
+            return Redirect::to('register')->withErrors(['username'=>'User Name already exist']);
+        }
+
+        $userinfo = User::where('email',$user['email'])->first();
+
+        if($userinfo)
+        {
+            return Redirect::to('register')->withErrors(['email'=>'Email already exist']);
+        }
+
+        User::create([
+            'email'=>$user['email'],
+            'username'=>$user['username'],
+            'password'=>bcrypt($user['password']),
+            'role'=>'admin'
+        ]);
+
+        return Redirect::to('login');
+    }
+
     public function register(Request $request)
     {
     	return view('register');
