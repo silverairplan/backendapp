@@ -268,7 +268,7 @@ class sportlistcommand extends Command
                                 if($index > -1)
                                 {
                                     $spreads = $this->getvalue($sportinfo['spreads'],'spreads',$alertinfo->user->sports_book);
-                                    var_dump($spreads);
+                                    
                                     if($spreads['points'][$index] > $alertinfo->value)
                                     {
                                         // History::create([
@@ -280,7 +280,7 @@ class sportlistcommand extends Command
                                         // ]);
 
                                         //$alertinfo->update(['sended'=>!$alertinfo->sended]);
-
+                                        var_dump($alertinfo->user->notification_token);
                                         if($alertinfo->user->notification_token)
                                         {
                                             $this->senddevice('Spread for ' . $alertinfo->team . ' has been limited with ' . $spreads['points'][$index] . ' for game ' . $sportinfo['teams'][0] . '@' . $sportinfo['teams'][1],$alertinfo->user->notification_token);    
