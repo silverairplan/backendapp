@@ -67,7 +67,7 @@ class SiteController extends Controller
 
     		if(Auth::attempt($userdata))
     		{
-    			return Redirect::to('/');
+    			return Redirect::to('/home');
     		}
     		else
     		{

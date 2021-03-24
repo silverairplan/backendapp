@@ -17,6 +17,9 @@ Auth::routes();
 
 Route::post('/login_user','SiteController@dologin')->name('login_user');
 Route::group(['middleware'=>['auth']],function(){
+	Route::get('/',function(){
+		return redirect(route('home'));
+	});
 	Route::get('/home', 'HomeController@index')->name('home');	
 	Route::get('/logout','Auth/LoginController@logout')->name('logout');
 
