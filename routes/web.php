@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::post('/login_user','SiteController@dologin')->name('login_user');
+Route::post('/user_register','SiteController@doregister')->name('user_register');
 Route::group(['middleware'=>['auth']],function(){
 	Route::get('/',function(){
 		return redirect(route('home'));
