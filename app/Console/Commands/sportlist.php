@@ -268,7 +268,7 @@ class sportlistcommand extends Command
                                 if($index > -1)
                                 {
                                     $spreads = $this->getvalue($sportinfo['spreads'],'spreads',$alertinfo->user->sports_book);
-                                    
+                                    var_dump($spreads);
                                     if($spreads['points'][$index] > $alertinfo->value)
                                     {
                                         // History::create([
