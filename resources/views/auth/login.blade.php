@@ -42,7 +42,7 @@
                                     <label>Email Address</label>
                                     <input class="au-input au-input--full" type="email" name="email" placeholder="Email" required>
                                     @error('email')
-                                        <span class="invalid-feedback" role="alert">
+                                        <span class="invalid-feedback" role="alert" style="display: block;">
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
@@ -51,7 +51,7 @@
                                     <label>Password</label>
                                     <input class="au-input au-input--full" type="password" name="password" placeholder="Password" required>
                                      @error('password')
-                                        <span class="invalid-feedback" role="alert">
+                                        <span class="invalid-feedback" role="alert" style="display: block;">
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
