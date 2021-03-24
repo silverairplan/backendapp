@@ -111,12 +111,12 @@ class SiteController extends Controller
     	{
     		$article = Article::where('id',$id)->first();
     		$article->update($data);
-    		return Redirect::to('article.edit')->with('id',$article->id);
+    		return Redirect::route('article.edit',['id'=>$article->id]);
     	}
     	else
     	{
     		$article = Article::create($data);
-    		return Redirect::to('article.edit')->with('id',$article->id);
+    		return Redirect::route('article.edit',['id'=>$article->id]);
     	}
     }
 
@@ -125,6 +125,6 @@ class SiteController extends Controller
     	$id = $request->input('id');
 
     	Article::where('id',$id)->delete();
-    	return Redirect::to('articles');
+    	return Redirect::route('articles');
     }
 }
