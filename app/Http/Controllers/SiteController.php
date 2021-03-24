@@ -30,6 +30,7 @@ class SiteController extends Controller
 
     public function dologin(Request $request)
     {
+    	return 'aaa';
     	$rules = array(
 	      'email' => 'required|email',
 	      'password' => 'required|alphaNum|min:8');
@@ -54,6 +55,10 @@ class SiteController extends Controller
     			{
     				return Redirect::to('login')->withErrors(['password'=>'The Password is incorrect']);	
     			}
+    			else if($user->role != 'admin')
+    			{
+    				return Redirect::to('login')->withErrors(['role'=>"You can't access to this site"]);
+    			}	
     			
     		}
     		else
