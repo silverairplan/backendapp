@@ -18,7 +18,7 @@
 	            					<textarea class="form-control" name="content" id="content" required=""></textarea>
 	            				</div>
 	            				<div>
-	            					<a href="{{route('article')}}" class="btn btn-secondary">Cancel</a>
+	            					<a href="{{route('articles')}}" class="btn btn-secondary">Cancel</a>
 	            					<button type="submit" class="btn btn-primary">Submit</button>
 	            				</div>
 	            			</form>
