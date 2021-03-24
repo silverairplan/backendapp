@@ -271,15 +271,15 @@ class sportlistcommand extends Command
                                     var_dump($spreads);
                                     if($spreads['points'][$index] > $alertinfo->value)
                                     {
-                                        History::create([
-                                            'alertid'=>$alertinfo->id,
-                                            'value'=>$spreads['points'][$index],
-                                            'period'=>isset($sportinfo['scoreboard']['periodTimeRemaining'])?$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q':'',
-                                            'type'=>'point',
-                                            'userid'=>$alertinfo->user->id
-                                        ]);
+                                        // History::create([
+                                        //     'alertid'=>$alertinfo->id,
+                                        //     'value'=>$spreads['points'][$index],
+                                        //     'period'=>isset($sportinfo['scoreboard']['periodTimeRemaining'])?$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q':'',
+                                        //     'type'=>'point',
+                                        //     'userid'=>$alertinfo->user->id
+                                        // ]);
 
-                                        $alertinfo->update(['sended'=>!$alertinfo->sended]);
+                                        //$alertinfo->update(['sended'=>!$alertinfo->sended]);
 
                                         if($alertinfo->user->notification_token)
                                         {
@@ -290,15 +290,15 @@ class sportlistcommand extends Command
 
                                     if($spreads['odds'][$index] > $alertinfo->odd)
                                     {
-                                        History::create([
-                                            'alertid'=>$alertinfo->id,
-                                            'value'=>$spreads['odds'][$index],
-                                            'period'=>isset($sportinfo['scoreboard']['periodTimeRemaining'])?$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q':'',
-                                            'type'=>'odd',
-                                            'userid'=>$alertinfo->user->id
-                                        ]);
+                                        // History::create([
+                                        //     'alertid'=>$alertinfo->id,
+                                        //     'value'=>$spreads['odds'][$index],
+                                        //     'period'=>isset($sportinfo['scoreboard']['periodTimeRemaining'])?$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q':'',
+                                        //     'type'=>'odd',
+                                        //     'userid'=>$alertinfo->user->id
+                                        // ]);
 
-                                        $alertinfo->update(['sended'=>!$alertinfo->sended]);
+                                        // $alertinfo->update(['sended'=>!$alertinfo->sended]);
 
                                         if($alertinfo->user->notification_token)
                                         {
@@ -314,15 +314,15 @@ class sportlistcommand extends Command
                                     $totals = $this->getvalue($sportinfo['totals'],'totals',$alertinfo->user->sports_book);
                                     if($totals['points'][$index] > $alertinfo->value)
                                     {
-                                        History::create([
-                                            'alertid'=>$alertinfo->id,
-                                            'value'=>$totals['points'][$index],
-                                            'period'=>isset($sportinfo['scoreboard']['periodTimeRemaining'])?$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q':'',
-                                            'type'=>'point',
-                                            'userid'=>$alertinfo->user->id
-                                        ]);
+                                        // History::create([
+                                        //     'alertid'=>$alertinfo->id,
+                                        //     'value'=>$totals['points'][$index],
+                                        //     'period'=>isset($sportinfo['scoreboard']['periodTimeRemaining'])?$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q':'',
+                                        //     'type'=>'point',
+                                        //     'userid'=>$alertinfo->user->id
+                                        // ]);
 
-                                        $alertinfo->update(['sended'=>!$alertinfo->sended]);
+                                        // $alertinfo->update(['sended'=>!$alertinfo->sended]);
 
                                         if($alertinfo->user->notification_token)
                                         {
@@ -332,14 +332,14 @@ class sportlistcommand extends Command
 
                                     if($totals['odds'][$index] > $alertinfo->odd)
                                     {
-                                        History::create([
-                                            'alertid'=>$alertinfo->id,
-                                            'value'=>$totals['odds'][$index],
-                                            'period'=>isset($sportinfo['scoreboard']['periodTimeRemaining'])?$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q':'',
-                                            'type'=>'odd',
-                                            'userid'=>$alertinfo->user->id
-                                        ]);
-                                        $alertinfo->update(['sended'=>!$alertinfo->sended]);
+                                        // History::create([
+                                        //     'alertid'=>$alertinfo->id,
+                                        //     'value'=>$totals['odds'][$index],
+                                        //     'period'=>isset($sportinfo['scoreboard']['periodTimeRemaining'])?$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q':'',
+                                        //     'type'=>'odd',
+                                        //     'userid'=>$alertinfo->user->id
+                                        // ]);
+                                        // $alertinfo->update(['sended'=>!$alertinfo->sended]);
 
                                         if($alertinfo->user->notification_token)
                                         {
@@ -355,15 +355,15 @@ class sportlistcommand extends Command
                                     $moneyline = $this->getvalue($sportinfo['moneyline'],'moneyline',$alertinfo->user->sports_book);
                                     if($moneyline[$index] > $alertinfo->value)
                                     {
-                                        History::create([
-                                            'alertid'=>$alertinfo->id,
-                                            'value'=>$moneyline[$index],
-                                            'period'=>isset($sportinfo['scoreboard']['periodTimeRemaining'])?$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q':'',
-                                            'type'=>'point',
-                                            'userid'=>$alertinfo->user->id
-                                        ]);
+                                        // History::create([
+                                        //     'alertid'=>$alertinfo->id,
+                                        //     'value'=>$moneyline[$index],
+                                        //     'period'=>isset($sportinfo['scoreboard']['periodTimeRemaining'])?$sportinfo['scoreboard']['periodTimeRemaining'] . ' ' . $sportinfo['scoreboard']['currentPeriod'] . 'Q':'',
+                                        //     'type'=>'point',
+                                        //     'userid'=>$alertinfo->user->id
+                                        // ]);
 
-                                        $alertinfo->update(['sended'=>!$alertinfo->sended]);
+                                        // $alertinfo->update(['sended'=>!$alertinfo->sended]);
 
                                         if($alertinfo->user->notification_token)
                                         {
