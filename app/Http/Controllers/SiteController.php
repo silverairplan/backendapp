@@ -111,12 +111,12 @@ class SiteController extends Controller
     	{
     		$article = Article::where('id',$id)->first();
     		$article->update($data);
-    		Redirect::to('article.edit')->with('id',$article->id);
+    		return Redirect::to('article.edit')->with('id',$article->id);
     	}
     	else
     	{
     		$article = Article::create($data);
-    		Redirect::to('article.edit')->with('id',$article->id);
+    		return Redirect::to('article.edit')->with('id',$article->id);
     	}
     }
 
