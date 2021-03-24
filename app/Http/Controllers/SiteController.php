@@ -90,6 +90,6 @@ class SiteController extends Controller
 
     public function article_edit(Request $request)
     {
-    	return view('article.edit');
+    	return view('article_edit');
     }
 }
