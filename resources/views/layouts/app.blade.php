@@ -42,7 +42,7 @@
                 <div class="container-fluid">
                     <div class="header-mobile-inner">
                         <a class="logo" href="index.html">
-                            <img src="{{asset('images/logo.png')}}" alt="CoolAdmin" style="width: 150px;" />
+                            <img src="{{asset('images/logo.png')}}" alt="CoolAdmin" style="width: 30px;" />
                         </a>
                         <button class="hamburger hamburger--slider" type="button">
                             <span class="hamburger-box">
@@ -84,7 +84,8 @@
         <aside class="menu-sidebar d-none d-lg-block">
             <div class="logo">
                 <a href="#">
-                    <img src="{{asset('images/logo.png')}}" alt="Cool Admin" />
+                    <img src="{{asset('images/logo.png')}}" alt="Cool Admin" style="width: 30px;" />
+                    Live Line
                 </a>
             </div>
             <div class="menu-sidebar__content js-scrollbar1">
@@ -142,5 +143,6 @@
     <script src="{{asset('vendor/chartjs/Chart.bundle.min.js')}}"></script>
     <script src="{{asset('vendor/select2/select2.min.js')}}">
     </script>
+    <script src="{{asset('js/main.js')}}"></script>
 </body>
 </html>
