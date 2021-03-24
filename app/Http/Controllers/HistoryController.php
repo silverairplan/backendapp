@@ -25,8 +25,9 @@ class HistoryController extends Controller
 
 			foreach ($history as $key => $value) {
 				$history[$key]->team = $value->alert->team;
+				$history[$key]->alerttype = $value->alert->type;
 			}
-			
+
 			return array('success'=>true,'history'=>$history);
 		}
 		else
