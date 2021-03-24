@@ -62,7 +62,7 @@
                             <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
                                 <li>
                                     <a href="{{route('home')}}">User</a>
-                                    <a href="{{route('home')}}">Add User</a>
+                                    <a href="{{route('logout')}}">Logout</a>
                                 </li>
                             </ul>
                         </li>
@@ -72,8 +72,8 @@
                             </a>
                             <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
                                 <li>
-                                    <a href="{{route('home')}}">User</a>
-                                    <a href="{{route('home')}}">Add User</a>
+                                    <a href="{{route('articles')}}">Articles</a>
+                                    <a href="{{route('article.edit')}}">Add Article</a>
                                 </li>
                             </ul>
                         </li>
@@ -98,6 +98,7 @@
                             <ul class="list-unstyled navbar__sub-list js-sub-list">
                                 <li>
                                     <a href="{{route('home')}}">User</a>
+                                    <a href="{{route('logout')}}">Logout</a>
                                 </li>
                             </ul>
                         </li>
