@@ -47,7 +47,7 @@ class SiteController extends Controller
     			'password'=>$request->input('password')
     		);
 
-    		$user = User::where('email')->first();
+    		$user = User::where('email',$userdata['email'])->first();
     		if($user)
     		{
     			if(!Hash::check($userdata['password'],$user->password))
