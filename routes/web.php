@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'SiteController@index');
+Route::get('/login','SiteController@login');
+Route::post('/login','SiteController@login');
+Route::get('/register','SiteController@register');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
