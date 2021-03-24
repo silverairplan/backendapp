@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Model\User;
+use App\Model\Article;
 
 class SiteController extends Controller
 {
@@ -79,5 +80,11 @@ class SiteController extends Controller
     public function register(Request $request)
     {
     	return view('register');
+    }
+
+    public function article(Request $request)
+    {
+    	$articles = Article::all();
+    	return view('article',['articles'=>$articles]);
     }
 }
