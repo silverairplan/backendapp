@@ -107,7 +107,7 @@ class SiteController extends Controller
     {
     	$data = $request->input();
 
-    	if($data['id'])
+    	if(isset($data['id']))
     	{
     		$article = Article::where('id',$id)->first();
     		$article->update($data);
