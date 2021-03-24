@@ -27,7 +27,7 @@
                                                 <i class="zmdi zmdi-edit"></i>
                                             </a>
                                             <a class="item delete" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit" href="#">
-                                                <i class="zmdi-delete"></i>
+                                                <i class="zmdi zmdi-delete"></i>
                                             </a>
                                     	</div>
                                     </td>
