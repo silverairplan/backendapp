@@ -47,3 +47,5 @@ Route::get('/alert/get','AlertController@getalerts');
 
 Route::get('/article/get','ArticleController@get_article');
 Route::get('/article/init','ArticleController@init_article');
+
+Route::get('/history/get','HistoryController@gethistory');

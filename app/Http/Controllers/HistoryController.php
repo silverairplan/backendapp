@@ -21,7 +21,13 @@ class HistoryController extends Controller
 
 		if($user)
 		{
+			$history = History::where('userid',$user->id)->get();
+
+			foreach ($history as $key => $value) {
+				$history[$key]->team = $value->alert->team;
+			}
 			
+			return array('success'=>true,'history'=>$history);
 		}
 		else
 		{

@@ -12,6 +12,6 @@ class History extends Model
 
     public function alert()
 	{
-		return $this->belongsTo(AlertParams::class,'gameid');
+		return $this->belongsTo(AlertParams::class,'alertid');
 	}
 }
