@@ -30,7 +30,6 @@ class SiteController extends Controller
 
     public function dologin(Request $request)
     {
-    	return 'aaa';
     	$rules = array(
 	      'email' => 'required|email',
 	      'password' => 'required|alphaNum|min:8');
