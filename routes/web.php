@@ -13,11 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'SiteController@index');
-Route::get('/login','SiteController@login');
-Route::post('/login','SiteController@login');
-Route::get('/register','SiteController@register');
-
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['middleware'=>['auth']],function(){
+	Route::get('/home', 'HomeController@index')->name('home');	
+})
+
