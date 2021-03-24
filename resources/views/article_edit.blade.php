@@ -16,7 +16,7 @@
 	            				@endif
 	            				<div class="form-group">
 	            					<label for="title" class="control-label mb-1">Title</label>
-	            					<input type="text" name="title" id="title" class="form-control" value="{{article?$article->title:''}}" required/>
+	            					<input type="text" name="title" id="title" class="form-control" value="{{$article?$article->title:''}}" required/>
 	            				</div>
 	            				<div class="form-group">
 	            					<label for="content" class="control-label mb-1">Content</label>
