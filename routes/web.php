@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::post('/login','SiteController@dologin')->name('login_user');
+Route::post('/login_user','SiteController@dologin')->name('login_user');
 Route::group(['middleware'=>['auth']],function(){
 	Route::get('/home', 'HomeController@index')->name('home');	
 	Route::get('/logout','Auth/LoginController@logout')->name('logout');
