@@ -41,7 +41,7 @@
 
                                 <div class="form-group">
                                     <label>Username</label>
-                                    <input class="au-input au-input--full" type="text" name="username" placeholder="Username">
+                                    <input class="au-input au-input--full" type="text" name="username" placeholder="Username" required>
                                      @error('username')
                                         <span class="invalid-feedback" role="alert" style="display: block;">
                                             <strong>{{ $message }}</strong>
@@ -50,7 +50,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Email Address</label>
-                                    <input class="au-input au-input--full" type="email" name="email" placeholder="Email">
+                                    <input class="au-input au-input--full" type="email" name="email" placeholder="Email" required>
                                     @error('email')
                                         <span class="invalid-feedback" role="alert" style="display: block;">
                                             <strong>{{ $message }}</strong>
@@ -59,15 +59,15 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Password</label>
-                                    <input class="au-input au-input--full" type="password" name="password" placeholder="Password">
+                                    <input class="au-input au-input--full" type="password" name="password" placeholder="Password" required>
                                 </div>
                                 <div class="form-group">
                                     <label>Confirm Password</label>
-                                    <input class="au-input au-input--full" type="password" name="repassword" placeholder="Confirm Password">
+                                    <input class="au-input au-input--full" type="password" name="repassword" placeholder="Confirm Password" required>
                                 </div>
                                 <div class="login-checkbox">
                                     <label>
-                                        <input type="checkbox" name="aggree">Agree the terms and policy
+                                        <input type="checkbox" name="aggree" requried>Agree the terms and policy
                                     </label>
                                 </div>
                                 <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">register</button>
