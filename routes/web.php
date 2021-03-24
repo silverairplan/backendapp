@@ -22,6 +22,6 @@ Route::group(['middleware'=>['auth']],function(){
 	});
 	Route::get('/home', 'HomeController@index')->name('home');	
 	Route::get('/logout','Auth/LoginController@logout')->name('logout');
-	Route::get('/articles','SiteController@articles')->name('articles');
+	Route::get('/articles','SiteController@article')->name('articles');
 });
 
