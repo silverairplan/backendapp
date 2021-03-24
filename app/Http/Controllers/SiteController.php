@@ -38,13 +38,13 @@ class SiteController extends Controller
 
     	if($validator->fails())
     	{
-    		return Redirect::to('login')->withErrors($validator)->withInput(Input::except('password'));
+    		return Redirect::to('login')->withErrors($validator);
     	}
     	else
     	{
     		$userdata = array(
-    			'email'=>Input::get('email'),
-    			'password'=>Input::get('password')
+    			'email'=>$request->input('email'),
+    			'password'=>$request->input('password')
     		);
 
     		$user = User::where('email')->first();
