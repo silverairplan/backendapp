@@ -87,4 +87,9 @@ class SiteController extends Controller
     	$articles = Article::all();
     	return view('article',['articles'=>$articles]);
     }
+
+    public function article_edit(Request $request)
+    {
+    	return view('article.edit');
+    }
 }

@@ -109,7 +109,7 @@
                             <ul class="list-unstyled navbar__sub-list js-sub-list">
                                 <li>
                                     <a href="{{route('articles')}}">Articles</a>
-                                    <a href="{{route('home')}}">Add Article</a>
+                                    <a href="{{route('article.edit')}}">Add Article</a>
                                 </li>
                             </ul>
                         </li> 
