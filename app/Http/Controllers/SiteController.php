@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use App\Model\User;
 use App\Model\Article;
 
@@ -26,6 +27,7 @@ class SiteController extends Controller
     public function dologout(Request $request)
     {
     	Auth::logout();
+        Session::flush();
     	return Redirect::to('login');
     }
 
