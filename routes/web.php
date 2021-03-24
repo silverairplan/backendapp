@@ -24,5 +24,7 @@ Route::group(['middleware'=>['auth']],function(){
 	Route::get('/logout','Auth/LoginController@logout')->name('logout');
 	Route::get('/articles','SiteController@article')->name('articles');
 	Route::get('/articles/edit','SiteController@article_edit')->name('article.edit');
+	Route::get('/articles/delete','SiteController@article_delete')->name('article.delete');
+	Route::post('/article/update','SiteController@article_update')->name('article.update');
 });
 

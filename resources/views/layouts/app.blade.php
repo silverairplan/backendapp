@@ -98,7 +98,6 @@
                             <ul class="list-unstyled navbar__sub-list js-sub-list">
                                 <li>
                                     <a href="{{route('home')}}">User</a>
-                                    <a href="{{route('home')}}">Add User</a>
                                 </li>
                             </ul>
                         </li>

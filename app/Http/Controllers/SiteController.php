@@ -90,6 +90,37 @@ class SiteController extends Controller
 
     public function article_edit(Request $request)
     {
-    	return view('article_edit');
+    	$id = $request->input('id');
+
+    	$article = false;
+
+    	$article = Article::where('id',$id)->first();
+
+    	return view('article_edit',['article'=>$article]);
+    }
+    
+    public function article_update(Request $request)
+    {
+    	$data = $request->input();
+
+    	if($data['id'])
+    	{
+    		$article = Article::where('id',$id)->first();
+    		$article->update($data);
+    		Redirect::to('article.edit',['id'=>$article->id]);
+    	}
+    	else
+    	{
+    		$article = Article::create($data);
+    		Redirect::to('article.edit',['id'=>$article->id]);
+    	}
+    }
+
+    public function article_delete(Request $request)
+    {
+    	$id = $request->input('id');
+
+    	Article::where('id',$id)->delete();
+    	return Redirect::to('articles');
     }
 }

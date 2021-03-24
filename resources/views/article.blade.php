@@ -23,10 +23,10 @@
                                     <td>{{$article->created_at}}</td>
                                     <td>
                                     	<div class="table-data-feature">
-                                    		<a class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit" href="{{route('article.edit')}}">
+                                    		<a class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit" href="{{route('article.edit',['id'=>$article->id])}}">
                                                 <i class="zmdi zmdi-edit"></i>
                                             </a>
-                                            <a class="item delete" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit" href="#">
+                                            <a class="item delete" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit" href="{{route('article.delete',['id'=>$article->id])}}">
                                                 <i class="zmdi zmdi-delete"></i>
                                             </a>
                                     	</div>
