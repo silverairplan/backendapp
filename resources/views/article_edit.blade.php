@@ -8,7 +8,7 @@
 	            	<div class="card">
 	            		<div class="card-header">Article</div>
 	            		<div class="card-body">
-	            			<form action="{{route('article')}}" method="post">
+	            			<form action="{{route('articles')}}" method="post">
 	            				<div class="form-group">
 	            					<label for="title" class="control-label mb-1">Title</label>
 	            					<input type="text" name="title" id="title" class="form-control" required/>
