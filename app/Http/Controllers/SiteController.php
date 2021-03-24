@@ -35,7 +35,7 @@ class SiteController extends Controller
     {
     	$rules = array(
 	      'email' => 'required|email',
-	      'password' => 'required|alphaNum|min:8');
+	      'password' => 'required|alphaNum|min:6');
 
     	$validator = Validator::make($request->input(),$rules);
 
@@ -81,6 +81,17 @@ class SiteController extends Controller
 
     public function doregister(Request $request)
     {
+        $rules = array(
+          'email' => 'required|email',
+          'password' => 'required|alphaNum|min:6');
+
+        $validator = Validator::make($request->input(),$rules);
+
+        if($validator->fails())
+        {
+            return Redirect::to('register')->withErrors($validator);
+        }
+        
         $user = $request->input();
         $userinfo = User::where('username',$user['username'])->first();
         if($userinfo)
