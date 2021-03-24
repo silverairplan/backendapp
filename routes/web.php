@@ -21,7 +21,7 @@ Route::group(['middleware'=>['auth']],function(){
 		return redirect(route('home'));
 	});
 	Route::get('/home', 'HomeController@index')->name('home');	
-	Route::get('/logout','SiteController@logout')->name('logout');
+	Route::get('/logout','SiteController@dologout')->name('logout');
 	Route::get('/articles','SiteController@article')->name('articles');
 	Route::get('/articles/edit','SiteController@article_edit')->name('article.edit');
 	Route::get('/articles/delete','SiteController@article_delete')->name('article.delete');
