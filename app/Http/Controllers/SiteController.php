@@ -94,7 +94,11 @@ class SiteController extends Controller
 
     	$article = false;
 
-    	$article = Article::where('id',$id)->first();
+    	if($id)
+    	{
+    		$article = Article::where('id',$id)->first();	
+    	}
+    	
 
     	return view('article_edit',['article'=>$article]);
     }

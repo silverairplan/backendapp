@@ -9,6 +9,8 @@
 	            		<div class="card-header">Article</div>
 	            		<div class="card-body">
 	            			<form action="{{route('article.update')}}" method="post">
+	            				@csrf
+	            				
 	            				@if($article && $article->id)
 	            				<input type="hidden" name="id" value="{{$article->id}}"/>
 	            				@endif
