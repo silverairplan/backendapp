@@ -130,6 +130,19 @@ class AlertController extends Controller
 			return array('success'=>false,'message'=>'User token has expired');
 		}
 	}
+
+	public function setalert(Request $request)
+	{
+		$id = $request->input('id');
+		$alert = AlertParams::where('id',$id)->first();
+
+		if($alert)
+		{
+			$alert->update(['sended',!$alert->sended]);
+		}
+
+		return array('success'=>true);
+	}
 }
 
 ?>

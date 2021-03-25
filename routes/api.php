@@ -44,6 +44,7 @@ Route::get('/watchlist/getfav','WatchlistController@getfavourites');
 
 Route::post('/alert/update','AlertController@updatealert');
 Route::get('/alert/get','AlertController@getalerts');
+Route::post('/alert/set','AlertController@setalert');
 
 Route::get('/article/get','ArticleController@get_article');
 Route::get('/article/init','ArticleController@init_article');
