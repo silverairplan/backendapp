@@ -283,7 +283,7 @@ class sportlistcommand extends Command
 
                                         if($alertinfo->user->notification_token)
                                         {
-                                            $this->senddevice('Spread for ' . $alertinfo->team . ' has been limited with ' . $spreads['points'][$index] . ' for game ' . $sportinfo['teams'][0] . '@' . $sportinfo['teams'][1],$alertinfo->user->notification_token);    
+                                            $this->senddevice('Spread limit for ' . $alertinfo->team . ' has been reached with ' . $spreads['points'][$index] . ' for game ' . $sportinfo['teams'][0] . '@' . $sportinfo['teams'][1],$alertinfo->user->notification_token);    
                                         }
                                         
                                     }
@@ -302,7 +302,7 @@ class sportlistcommand extends Command
 
                                         if($alertinfo->user->notification_token)
                                         {
-                                            $this->senddevice('Spread Odd for ' . $alertinfo->team . ' has been limited with ' . $spreads['points'][$index] . ' for game ' . $sportinfo['teams'][0] . '@' . $sportinfo['teams'][1],$alertinfo->user->notification_token);    
+                                            $this->senddevice('Spread Odds limit for ' . $alertinfo->team . ' has been reached with ' . $spreads['points'][$index] . ' for game ' . $sportinfo['teams'][0] . '@' . $sportinfo['teams'][1],$alertinfo->user->notification_token);    
                                         }
                                     }
                                 }
@@ -326,7 +326,7 @@ class sportlistcommand extends Command
 
                                         if($alertinfo->user->notification_token)
                                         {
-                                            $this->senddevice('Total for ' . $alertinfo->team . ' has been limited with ' . $totals['points'][$index] . ' for game ' . $sportinfo['teams'][0] . '@' . $sportinfo['teams'][1],$alertinfo->user->notification_token);    
+                                            $this->senddevice('Total limit for ' . $alertinfo->team . ' has been reached with ' . $totals['points'][$index] . ' for game ' . $sportinfo['teams'][0] . '@' . $sportinfo['teams'][1],$alertinfo->user->notification_token);    
                                         }
                                     }
 
@@ -343,7 +343,7 @@ class sportlistcommand extends Command
 
                                         if($alertinfo->user->notification_token)
                                         {
-                                            $this->senddevice('Total Odd for ' . $alertinfo->team . ' has been limited with ' . $totals['odds'][$index] . ' for game ' . $sportinfo['teams'][0] . '@' . $sportinfo['teams'][1],$alertinfo->user->notification_token);    
+                                            $this->senddevice('Total Odds limit for ' . $alertinfo->team . ' has been reached with ' . $totals['odds'][$index] . ' for game ' . $sportinfo['teams'][0] . '@' . $sportinfo['teams'][1],$alertinfo->user->notification_token);    
                                         }
                                     }
                                 }
@@ -367,7 +367,7 @@ class sportlistcommand extends Command
 
                                         if($alertinfo->user->notification_token)
                                         {
-                                            $this->senddevice('Moneyline for ' . $alertinfo->team . ' has been limited with ' . $moneyline[$index] . ' for game ' . $sportinfo['teams'][0] . '@' . $sportinfo['teams'][1],$alertinfo->user->notification_token);    
+                                            $this->senddevice('Moneyline limit for ' . $alertinfo->team . ' has been reached with ' . $moneyline[$index] . ' for game ' . $sportinfo['teams'][0] . '@' . $sportinfo['teams'][1],$alertinfo->user->notification_token);    
                                         }
                                     }
                                 }
