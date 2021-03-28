@@ -61,6 +61,8 @@ class AlertController extends Controller
 		$user = User::where('token',$token)->first();
 		$teaminfo = $request->input('team');
 		$commencetime = $request->input('commencetime');
+		$alert_enable = $request->input('alert_enable');
+		$id = $request->input('id');
 		if($user)
 		{
 			$team = Teams::where('team1',$teams[0])->where('team2',$teams[1])->first();
@@ -99,7 +101,7 @@ class AlertController extends Controller
 				}
 				else
 				{
-					if($alert->commencetime != $commencetime)
+					if($alert->commencetime != $commencetime && !$id)
 					{
 						if($user->balance < 1)
 						{
@@ -110,12 +112,19 @@ class AlertController extends Controller
 						$user->save();
 					}
 
+					$updatedata = [
+						'value'=>$value,
+						'odd'=>$odd,
+						'minutes'=>$minute
+					];
+
+					if($id)
+					{
+						$updatedata['alert_enable'] = $alert_enable;
+					}
+
 					$alert->update(
-						[
-							'value'=>$value,
-							'odd'=>$odd,
-							'minutes'=>$minute
-						]
+						$updatedata
 					);
 				}
 
@@ -143,6 +152,23 @@ class AlertController extends Controller
 		}
 
 		return array('success'=>true);
+	}
+
+	public function deletealert(Request $request)
+	{
+		$id = $request->input('id');
+		$token = $request->input('token');
+
+		$user = User::where('token',$token)->first();
+
+		if($user)
+		{
+			$alert = 
+		}
+		else
+		{
+
+		}
 	}
 }
 
