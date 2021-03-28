@@ -163,11 +163,12 @@ class AlertController extends Controller
 
 		if($user)
 		{
-			$alert = 
+			$alert = AlertParams::where('id',$id)->delete();
+			return array('success'=>true);
 		}
 		else
 		{
-
+			return array('success'=>false);
 		}
 	}
 }
