@@ -139,7 +139,7 @@ class AlertController extends Controller
 
 		if($alert)
 		{
-			$alert->update(['alert_enable',!$alert->alert_enable]);
+			$alert->update(['alert_enable'=>!$alert->alert_enable]);
 		}
 
 		return array('success'=>true);
