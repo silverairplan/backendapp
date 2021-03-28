@@ -38,7 +38,7 @@ class AlertController extends Controller
 					'type'=>$alert->type,
 					'commencetime'=>$alert->commencetime,
 					'minutes'=>$alert->minutes,
-					'sended'=>$alert->sended
+					'alert_enable'=>$alert->alert_enable
 				));
 			}
 
@@ -139,7 +139,7 @@ class AlertController extends Controller
 
 		if($alert)
 		{
-			$alert->update(['sended',!$alert->sended]);
+			$alert->update(['alert_enable',!$alert->alert_enable]);
 		}
 
 		return array('success'=>true);

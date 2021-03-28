@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class AlertParams extends Model
 {
 	protected $table = "alertparams";
-	protected $fillable = ["userid","gameid","value","odd","team","type","minutes","commencetime",'sended'];
+	protected $fillable = ["userid","gameid","value","odd","team","type","minutes","commencetime",'sended','alert_enable'];
 
 	public function teams()
 	{

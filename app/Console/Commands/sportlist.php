@@ -256,13 +256,11 @@ class sportlistcommand extends Command
                 ]);
 
                 $alertinfos = AlertParams::where('gameid',$team->id)->where('commencetime',$sportinfo['commence_time'])->where('updated_at','<',date('Y-m-d H:i:s',$nowtime))->get();
-                var_dump(count($alertinfos));
-
+              
                 if($alertinfos && count($alertinfos) > 0)
                 {
                     foreach ($alertinfos as $alertinfo) {
-                        var_dump($alertinfo->type);
-                         switch ($alertinfo->type && $alertinfo->user->alert_enable) {
+                         switch ($alertinfo->type && $alertinfo->user->alert_enable && $alertinfo->alert_enable) {
                             case 'SPREAD':
                                 $index = array_search($alertinfo->team, $sportinfo['teams']);
                                 if($index > -1)
