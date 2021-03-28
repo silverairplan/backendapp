@@ -37,7 +37,8 @@ class AlertController extends Controller
 					'team'=>$alert->team,
 					'type'=>$alert->type,
 					'commencetime'=>$alert->commencetime,
-					'minutes'=>$alert->minutes
+					'minutes'=>$alert->minutes,
+					'sended'=>$alert->sended
 				));
 			}
 
