@@ -266,15 +266,7 @@ class sportlistcommand extends Command
                             continue;
                         }
 
-                        $endtime = strtotime($alertinfo->created_at) + 60 * $alertinfo->minutes;
-
-                        if($now >= $endtime)
-                        {
-                            $alertinfo->update(['alert_enable'=>false]);
-                            continue;
-                        }
-                        
-                         switch ($alertinfo->type && $alertinfo->user->alert_enable && $alertinfo->alert_enable) {
+                         switch ($alertinfo->type && $alertinfo->user->alert_enable && $alertinfo->alert_enable && $alertinfo->user->sports_book == $alertinfo->sportsbook) {
                             case 'SPREAD':
                                 $index = array_search($alertinfo->team, $sportinfo['teams']);
                                 if($index > -1)

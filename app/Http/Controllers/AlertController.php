@@ -38,7 +38,8 @@ class AlertController extends Controller
 					'type'=>$alert->type,
 					'commencetime'=>$alert->commencetime,
 					'minutes'=>$alert->minutes,
-					'alert_enable'=>$alert->alert_enable
+					'alert_enable'=>$alert->alert_enable,
+					'sportsbook'=>$user->sports_book
 				));
 			}
 
@@ -74,7 +75,7 @@ class AlertController extends Controller
 
 			if($team)
 			{
-				$alert = AlertParams::where('userid',$user->id)->where('gameid',$team->id)->where('team',$teaminfo)->where('type',$type)->first();
+				$alert = AlertParams::where('userid',$user->id)->where('gameid',$team->id)->where('team',$teaminfo)->where('type',$type)->where('sportsbook',$user->sports_book)->first();
 
 				if(!$alert)
 				{
@@ -94,7 +95,8 @@ class AlertController extends Controller
 						'team'=>$teaminfo,
 						'minutes'=>$minute,
 						'commencetime'=>$commencetime,
-						'type'=>$type
+						'type'=>$type,
+						'sportsbook'=>$user->sports_book
 					));
 
 					$alert->save();	
