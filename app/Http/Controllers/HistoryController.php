@@ -23,12 +23,17 @@ class HistoryController extends Controller
 		{
 			$history = History::where('userid',$user->id)->get();
 
+			$list = array();
 			foreach ($history as $key => $value) {
-				$history[$key]->team = $value->alert->team;
-				$history[$key]->alerttype = $value->alert->type;
+				if($value->alert)
+				{
+					$history[$key]->team = $value->alert->team;
+					$history[$key]->alerttype = $value->alert->type;
+					array_push($list,$history);
+				}
 			}
 
-			return array('success'=>true,'history'=>$history);
+			return array('success'=>true,'history'=>$list);
 		}
 		else
 		{
