@@ -261,12 +261,13 @@ class sportlistcommand extends Command
                 if($alertinfos && count($alertinfos) > 0)
                 {
                     foreach ($alertinfos as $alertinfo) {
-                        if(!$alertinfo->alert_enable)
+                        if(!$alertinfo->alert_enable || !$alertinfo->user->alert_enable || $alertinfo->sportsbook != $alertinfo->user->sports_book)
                         {
                             continue;
                         }
 
-                         switch ($alertinfo->type && $alertinfo->user->alert_enable && $alertinfo->alert_enable && $alertinfo->user->sports_book == $alertinfo->sportsbook) {
+                        
+                         switch ($alertinfo->type) {
                             case 'SPREAD':
                                 $index = array_search($alertinfo->team, $sportinfo['teams']);
                                 if($index > -1)
