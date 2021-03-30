@@ -39,7 +39,7 @@ class AlertController extends Controller
 					'commencetime'=>$alert->commencetime,
 					'minutes'=>$alert->minutes,
 					'alert_enable'=>$alert->alert_enable,
-					'sportsbook'=>$user->sports_book
+					'sportsbook'=>$alert->sportsbook
 				));
 			}
 
