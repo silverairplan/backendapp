@@ -172,7 +172,7 @@ class SportBetting extends Controller
 
                         if(!$enable)
                         {
-                            $sportdatainfo['closed_moneyline'] = $sportdatainfo['moneyline'];
+                            $sportdatainfo['closed_moneyline'] = isset($sportdatainfo['moneyline'])?$sportdatainfo['moneyline']:[];
                         }
 
                         $enable = false;
@@ -186,9 +186,9 @@ class SportBetting extends Controller
                             }
                         }             
 
-                        if(!$enable)
+                        if(!$enable && isset($sportdatainfo['totals']))
                         {
-                            $sportdatainfo['closed_totals'] = $sportdatainfo['totals'];
+                            $sportdatainfo['closed_totals'] = isset($sportdatainfo['totals'])?$sportdatainfo['totals']:[];
                         }               
 
                         $enable = false;
@@ -202,9 +202,9 @@ class SportBetting extends Controller
                             }
                         }
 
-                        if(!$enable)
+                        if(!$enable && isset($sportdatainfo['spreads']))
                         {
-                            $sportdatainfo['closed_spreads'] = $sportdatainfo['spreads'];
+                            $sportdatainfo['closed_spreads'] = isset($sportdatainfo['spreads'])?$sportdatainfo['spreads']:[];
                         }
 
                         $sportdatainfo['team1'] = $team->team1;
@@ -212,9 +212,9 @@ class SportBetting extends Controller
                     }
                     else
                     {
-                        $sportdatainfo['closed_spreads'] = $sportdatainfo['spreads'];
-                        $sportdatainfo['closed_totals'] = $sportdatainfo['totals'];
-                        $sportdatainfo['closed_moneyline'] = $sportdatainfo['moneyline'];
+                        $sportdatainfo['closed_spreads'] = isset($sportdatainfo['spreads'])?$sportdatainfo['spreads']:[];
+                        $sportdatainfo['closed_totals'] = isset($sportdatainfo['totals'])?$sportdatainfo['totals']:[];
+                        $sportdatainfo['closed_moneyline'] = isset($sportdatainfo['moneyline'])?$sportdatainfo['moneyline']:[];
                     }
 
                     $sportdatainfo['history'] = array();
