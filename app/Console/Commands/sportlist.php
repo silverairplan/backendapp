@@ -106,6 +106,7 @@ class sportlistcommand extends Command
             $sportslist = json_decode($response->getBody(),true);
 
             $sportsarray = [];
+            $scorearray = [];
             $scoreenable = false;
 
             $nowtime = new \DateTime();

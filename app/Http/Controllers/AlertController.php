@@ -15,7 +15,7 @@ class AlertController extends Controller
 {
 	public function __construct()
 	{
-
+		
 	}
 
 	public function getalerts(Request $request)
