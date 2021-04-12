@@ -119,12 +119,11 @@ class SportBetting extends Controller
                     'status'=>$sportdata['status']
                 );
 
-                $enable = false;
+                $enable = true;
 
                 foreach ($sportdata['moneyline'] as $datainfo) {
                     if($datainfo['site_key'] == $site)
                     {
-                        $enable = true;
                         $sportdatainfo['moneyline'] = $datainfo['odds']['h2h'];
                         break;
                     }
@@ -132,11 +131,9 @@ class SportBetting extends Controller
 
                 if($enable)
                 {
-                    $enable = false;
                     foreach ($sportdata['spreads'] as $datainfo) {
                         if($datainfo['site_key'] == $site)
                         {
-                            $enable = true;
                             $sportdatainfo['spreads'] = $datainfo['odds']['spreads'];
                             break;
                         }
@@ -146,11 +143,9 @@ class SportBetting extends Controller
                 
                 if($enable)
                 {
-                    $enable = false;
                     foreach ($sportdata['totals'] as $datainfo) {
                         if($datainfo['site_key'] == $site)
                         {
-                            $enable = true;
                             $sportdatainfo['totals'] = $datainfo['odds']['totals'];
                             break;
                         }
@@ -181,7 +176,7 @@ class SportBetting extends Controller
                         }
 
                         $enable = false;
-                        $totals = json_decode($team->total,true);
+                        $totals = $team->total?json_decode($team->total,true):array();
                         foreach ($totals as $info) {
                             if($info['site_key'] == $site)
                             {
