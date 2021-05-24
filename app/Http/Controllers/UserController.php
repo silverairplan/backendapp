@@ -154,12 +154,12 @@ class UserController extends Controller
 			{
 				$datetime = strtotime($free);
 				$user->update('free',date('Y-m-d',$datetime));
-				return array('success'=>true);
+				return array('success'=>true,'user'=>$user);
 			}
 			else if($balance)
 			{
 				$user->update(['balance',$balance]);
-				return array('success'=>true);
+				return array('success'=>true,'user'=>$user);
 			}
 		}
 		else
