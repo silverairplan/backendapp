@@ -249,13 +249,18 @@ class sportlistcommand extends Command
 
                 TeamHistory::where('created_at','<',date('Y-m-d H:i:s',$beforetime))->delete();
                 History::where('created_at','<',date('Y-m-d H:i:s',$beforetime))->delete();
-                TeamHistory::create([
-                    'gameid'=>$team->id,
-                    'total'=>json_encode($sportinfo['totals']),
-                    'moneyline'=>json_encode($sportinfo['moneyline']),
-                    'spread'=>json_encode($sportinfo['spreads']),
-                    'commencetime'=>$sportinfo['commence_time']
-                ]);
+
+                if($team->status == 'in progress')
+                {
+                    TeamHistory::create([
+                        'gameid'=>$team->id,
+                        'total'=>json_encode($sportinfo['totals']),
+                        'moneyline'=>json_encode($sportinfo['moneyline']),
+                        'spread'=>json_encode($sportinfo['spreads']),
+                        'commencetime'=>$sportinfo['commence_time']
+                    ]);    
+                }
+                
 
                 $alertinfos = AlertParams::where('gameid',$team->id)->where('commencetime',$sportinfo['commence_time'])->where('updated_at','<',date('Y-m-d H:i:s',$nowtime))->get();
                 
@@ -275,7 +280,6 @@ class sportlistcommand extends Command
                                 if($index > -1)
                                 {
                                     $spreads = $this->getvalue($sportinfo['spreads'],'spreads',$alertinfo->user->sports_book);
-                                    var_dump($spreads);
                                     if($spreads['points'][$index] > $alertinfo->value)
                                     {
                                         History::create([

@@ -103,25 +103,13 @@ class UserController extends Controller
 	{
 		$user = $request->input();
 
-		$userinfo = User::where("username",$user['username'])->first();
-
-		if(!$userinfo)
-		{
-			$userinfo = User::where("email",$user['email'])->first();
-		}
+		$userinfo = User::where("email",$user['email'])->first();
 
 		if($userinfo)
 		{
-			if($userinfo->provider == $user['provider'])
-			{
-				$credential = Str::random(60);
-				$userinfo->update(['token'=>$credential]);
-				return array('success'=>true,'token'=>$credential);
-			}
-			else
-			{
-				return array('success'=>false,'message'=>'User with same username or email is already registered');
-			}
+			$credential = Str::random(60);
+			$userinfo->update(['token'=>$credential]);
+			return array('success'=>true,'token'=>$credential);
 		}
 		else
 		{
@@ -146,6 +134,33 @@ class UserController extends Controller
 		if($userinfo)
 		{
 			return array('success'=>true,'userinfo'=>$userinfo);
+		}
+		else
+		{
+			return array('success'=>false);
+		}
+	}
+
+	public function updatebalance(Request $request)
+	{
+		$balance = $request->input('balance');
+		$token = $request->input('token');
+		$free = $request->input('free');
+		$user = User::where('token',$token)->first();
+
+		if($user)
+		{
+			if($free)
+			{
+				$datetime = strtotime($free);
+				$user->update('free',date('Y-m-d',$datetime));
+				return array('success'=>true);
+			}
+			else if($balance)
+			{
+				$user->update(['balance',$balance]);
+				return array('success'=>true);
+			}
 		}
 		else
 		{

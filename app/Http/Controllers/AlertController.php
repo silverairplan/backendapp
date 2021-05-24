@@ -79,12 +79,29 @@ class AlertController extends Controller
 
 				if(!$alert)
 				{
-					if($user->balance < 1)
+					$freeuse = false;
+					if($user->free)
+					{
+						$freetime = new DateTime($user->free);
+						$now = new DateTime();
+
+						if($now < $freetime)
+						{
+							$freeuse = true;
+						}	
+					}
+					
+
+					if(!$freeuse && $user->balance < 1)
 					{
 						return array('success'=>false,'message'=>"balance insufficient to set alert parameters");
 					}
 
-					$user->balance --;
+					if(!$freeuse)
+					{
+						$user->balance --;	
+					}
+					
 					$user->save();
 
 					$alert = new AlertParams(array(
