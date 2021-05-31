@@ -246,6 +246,8 @@ class SportBetting extends Controller
                             }
                         }
 
+                        $spreadinfo['created'] = $teamhistory->created_at;
+
                         array_push($sportdatainfo['history'], $spreadinfo);
                     }
 
