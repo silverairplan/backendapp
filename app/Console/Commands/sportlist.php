@@ -397,7 +397,20 @@ class sportlistcommand extends Command
                 }
             }
 
-            $sportlistinfo->update(['data'=>json_encode($sportsarray)]);
+            if($sportlistinfo)
+            {
+                $sportlistinfo->update(['data'=>json_encode($sportsarray)]);    
+            }
+            else
+            {
+                $sportlistinfo = new SportList([
+                    'sport'=>$sport->key,
+                    'data'=>json_encode($sportsarray),
+                    'title'=>$sport->title
+                ]);
+                $sportlistinfo->save();
+            }
+            
         }
         
 
