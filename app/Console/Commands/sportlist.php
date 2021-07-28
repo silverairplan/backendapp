@@ -75,32 +75,36 @@ class sportlistcommand extends Command
 
             $sportlistinfo = SportList::where('sport',$sport->key)->first();
 
-            $datetime = strtotime($sportlistinfo->updated_at);
-            $now = new \DateTime();
-            $now = $now->format('U');
-
-            $databefore = json_decode($sportlistinfo->data,true);
-
-            echo 'now:' . $now;
-
-            echo 'datetime:' . $datetime;
-
-            if($now - $datetime < 60)
+            if($sportlistinfo)
             {
-                $inline = false;
-                foreach ($databefore as $key => $value) {
-                    if($value['status'] == 'in progress')
-                    {
-                        $inline = true;
-                        break;
-                    }        
-                } 
+                $datetime = strtotime($sportlistinfo->updated_at);
+                $now = new \DateTime();
+                $now = $now->format('U');
 
-                if(!$inline)
+                $databefore = json_decode($sportlistinfo->data,true);
+
+                echo 'now:' . $now;
+
+                echo 'datetime:' . $datetime;
+
+                if($now - $datetime < 60)
                 {
-                    continue;
-                }   
+                    $inline = false;
+                    foreach ($databefore as $key => $value) {
+                        if($value['status'] == 'in progress')
+                        {
+                            $inline = true;
+                            break;
+                        }        
+                    } 
+
+                    if(!$inline)
+                    {
+                        continue;
+                    }   
+                }
             }
+            
             
 
             $sportslist = json_decode($response->getBody(),true);
