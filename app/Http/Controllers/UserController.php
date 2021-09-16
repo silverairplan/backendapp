@@ -40,7 +40,7 @@ class UserController extends Controller
 
 			$user['password'] = bcrypt($user['password']);
 			$user['balance'] = 5;
-			$user['active'] = 0;
+			$user['active'] = 1;
 
 			if(isset($user['referal_username']))
 			{
